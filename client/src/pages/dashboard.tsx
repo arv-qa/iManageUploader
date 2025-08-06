@@ -19,7 +19,7 @@ export default function Dashboard() {
   const [currentStep, setCurrentStep] = useState<number>(1);
 
   // Check if user is authenticated
-  const { data: user } = useQuery({
+  const { data: user } = useQuery<{ id: string; username: string; serverUrl: string } | null>({
     queryKey: ['/api/auth/me'],
     enabled: isAuthenticated,
     retry: false,

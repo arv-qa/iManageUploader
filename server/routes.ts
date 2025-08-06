@@ -26,7 +26,7 @@ const upload = multer({
     if (allowedTypes.includes(file.mimetype)) {
       cb(null, true);
     } else {
-      cb(new Error('File type not supported'), false);
+      cb(new Error('File type not supported') as any, false);
     }
   }
 });
@@ -196,7 +196,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       // Create file records
-      const fileRecords = [];
+      const fileRecords: any[] = [];
       for (const file of files) {
         const fileRecord = await storage.createUploadedFile({
           sessionId,

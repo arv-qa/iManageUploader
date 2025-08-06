@@ -106,14 +106,16 @@ export default function UploadProgress({
   const { data: progress } = useQuery<UploadProgress>({
     queryKey: ['/api/upload', sessionId, 'progress'],
     enabled: !!sessionId,
-    refetchInterval: sessionId && !['completed', 'failed'].includes(progress?.status || '') ? 1000 : false,
+    refetchInterval: (data) => {
+      return sessionId && !['completed', 'failed'].includes(data?.status || '') ? 1000 : false;
+    },
   });
 
   // Update errors when progress changes
   useEffect(() => {
     if (progress?.files) {
-      const failedFiles = progress.files.filter(f => f.status === 'failed');
-      const errorMessages = failedFiles.map(f => `${f.fileName}: ${f.errorMessage || 'Unknown error'}`);
+      const failedFiles = progress.files.filter((f: any) => f.status === 'failed');
+      const errorMessages = failedFiles.map((f: any) => `${f.fileName}: ${f.errorMessage || 'Unknown error'}`);
       setErrors(errorMessages);
     }
   }, [progress]);
@@ -188,7 +190,7 @@ export default function UploadProgress({
           
           {progress?.files && (
             <div className="space-y-2">
-              {progress.files.map((file) => (
+              {progress.files.map((file: any) => (
                 <div
                   key={file.id}
                   className={cn(
