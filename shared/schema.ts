@@ -111,4 +111,10 @@ export interface UploadProgress {
   currentFile?: string;
   progress: number;
   status: 'pending' | 'uploading' | 'completed' | 'failed';
+  files?: Array<{
+    id: string;
+    fileName: string;
+    status: 'pending' | 'uploading' | 'completed' | 'failed';
+    errorMessage?: string;
+  }>;
 }
