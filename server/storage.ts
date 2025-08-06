@@ -154,7 +154,7 @@ export class MemStorage implements IStorage {
       id,
       description: workspace.description || null,
       userId: workspace.userId || null,
-      metadataFields: workspace.metadataFields ? Array.from(workspace.metadataFields) : null
+      metadataFields: workspace.metadataFields ? workspace.metadataFields as any : null
     };
     this.workspaces.set(id, newWorkspace);
     return newWorkspace;

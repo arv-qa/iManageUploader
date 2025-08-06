@@ -106,7 +106,8 @@ export default function UploadProgress({
   const { data: progress } = useQuery<UploadProgress>({
     queryKey: ['/api/upload', sessionId, 'progress'],
     enabled: !!sessionId,
-    refetchInterval: (data) => {
+    refetchInterval: (query) => {
+      const data = query.state.data;
       return sessionId && data && !['completed', 'failed'].includes(data.status) ? 1000 : false;
     },
   });
