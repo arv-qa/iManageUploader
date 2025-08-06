@@ -1,0 +1,143 @@
+
+🔧 Project Overview
+Project Title: iManage Bulk Upload Desktop Client
+Language: Java 8
+UI Toolkit: Swing (or JavaFX if preferred and compatible)
+External Dependencies: iManage Work API, Apache HttpClient, Jackson/Gson, SLF4J/Logback
+
+📋 Functional Requirements
+User Authentication
+
+Login screen to authenticate with iManage (OAuth2 or basic auth).
+
+Store and reuse tokens securely if session-based.
+
+Folder Selection
+
+Allow users to choose a local folder from which all files will be uploaded.
+
+Workspace Selection
+
+Fetch available workspaces from iManage.
+
+Present in dropdown/searchable UI to select one.
+
+Custom Fields Configuration
+
+Display editable form based on workspace metadata (dynamic form generation).
+
+Allow users to configure and submit custom metadata fields (e.g., document type, matter number, etc.).
+
+Bulk Upload Functionality
+
+Read files from the selected folder.
+
+Upload to the selected workspace via iManage Work API.
+
+Track and display upload progress and status.
+
+Error Handling & Logging
+
+Robust error logging with user feedback.
+
+Retry failed uploads.
+
+📅 Project Timeline (6 Weeks Plan)
+Week	Task
+1	Project Setup
+- Initialize Maven/Gradle project
+- Set up Swing UI skeleton
+- Add dependencies (HttpClient, JSON parser)
+2	Authentication & Workspace Integration
+- Implement login via iManage API
+- Fetch and display workspace list
+3	Folder and Custom Field Configuration
+- Add file chooser for folder selection
+- Fetch and display workspace custom fields
+- Allow field customization
+4	Upload Module
+- Read all files from selected folder
+- Implement upload logic with metadata
+- Handle threading & progress tracking
+5	UI Enhancements & Logging
+- Show progress bar, status per file
+- Add error messages/logging (Logback)
+- Save user config in local storage
+6	Testing & Packaging
+- Unit/integration testing
+- Package as executable JAR
+- Final documentation & user guide
+
+📦 Dependencies
+xml
+Copy
+Edit
+<!-- pom.xml for Maven -->
+<dependencies>
+    <dependency>
+        <groupId>org.apache.httpcomponents</groupId>
+        <artifactId>httpclient</artifactId>
+        <version>4.5.13</version>
+    </dependency>
+    <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-databind</artifactId>
+        <version>2.9.10</version>
+    </dependency>
+    <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-api</artifactId>
+        <version>1.7.30</version>
+    </dependency>
+    <dependency>
+        <groupId>ch.qos.logback</groupId>
+        <artifactId>logback-classic</artifactId>
+        <version>1.2.3</version>
+    </dependency>
+</dependencies>
+🧱 Suggested Project Structure
+css
+Copy
+Edit
+imanage-uploader/
+│
+├── src/
+│   ├── main/
+│   │   ├── java/
+│   │   │   ├── ui/
+│   │   │   │   ├── LoginFrame.java
+│   │   │   │   ├── MainFrame.java
+│   │   │   │   └── UploadProgressPanel.java
+│   │   │   ├── service/
+│   │   │   │   ├── IManageService.java
+│   │   │   │   └── UploadManager.java
+│   │   │   └── model/
+│   │   │       ├── Workspace.java
+│   │   │       ├── DocumentMetadata.java
+│   │   │       └── AuthToken.java
+│   │   └── resources/
+│   │       └── config.properties
+└── pom.xml
+🔐 iManage Integration Notes
+iManage typically uses REST APIs or COM/.NET interfaces; the REST APIs are recommended for Java.
+
+You will need:
+
+iManage Work Server URL
+
+OAuth2 Client ID/Secret (or service account)
+
+Scopes for accessing workspaces, documents, metadata
+
+API Reference: https://docs.imanage.com
+
+📌 Important Considerations
+Rate Limiting: Use retry logic with exponential backoff.
+
+Metadata Validation: Ensure user input matches iManage's required field types.
+
+File Size Limits: Respect any API-imposed limits or chunk uploads.
+
+Security: Securely store credentials (avoid plain-text storage).
+
+Packaging: Build with Maven Assembly or Shade plugin to create a standalone JAR.
