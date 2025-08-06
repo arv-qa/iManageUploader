@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iManage Uploader - Installation Guide</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+        h2 {
+            color: #34495e;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            border-radius: 8px;
+            font-size: 1.4em;
+        }
+        h3 {
+            color: #7f8c8d;
+            margin-top: 25px;
+            border-left: 4px solid #3498db;
+            padding-left: 15px;
+        }
+        .step-card {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 20px 0;
+            border-left: 5px solid #3498db;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .code-block {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            border-left: 4px solid #e74c3c;
+        }
+        .warning {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #f39c12;
+        }
+        .success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #27ae60;
+        }
+        .info {
+            background: #e8f4fd;
+            border: 1px solid #bee5eb;
+            color: #0c5460;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #17a2b8;
+        }
+        .download-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .download-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            text-decoration: none;
+            transition: transform 0.3s;
+        }
+        .download-card:hover {
+            transform: translateY(-5px);
+            text-decoration: none;
+            color: white;
+        }
+        .checklist {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        .checklist ul {
+            list-style: none;
+            padding: 0;
+        }
+        .checklist li {
+            padding: 8px 0;
+            position: relative;
+            padding-left: 30px;
+        }
+        .checklist li:before {
+            content: "✅";
+            position: absolute;
+            left: 0;
+            font-size: 1.2em;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 15px;
+            text-align: left;
+        }
+        th {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            font-weight: bold;
+        }
+        .emoji {
+            font-size: 1.5em;
+            margin-right: 10px;
+        }
+        .progress-bar {
+            background: #ecf0f1;
+            border-radius: 10px;
+            padding: 3px;
+            margin: 10px 0;
+        }
+        .progress-fill {
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            height: 20px;
+            border-radius: 8px;
+            width: 0%;
+            transition: width 0.3s;
+        }
+        .nav-menu {
+            background: #34495e;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .nav-menu a {
+            color: #ecf0f1;
+            text-decoration: none;
+            margin: 0 15px;
+            padding: 8px 15px;
+            border-radius: 4px;
+            transition: background 0.3s;
+            display: inline-block;
+        }
+        .nav-menu a:hover {
+            background: #2c3e50;
+        }
+        .folder-structure {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            margin: 15px 0;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1><span class="emoji">🚀</span>iManage Uploader Installation Guide</h1>
+        <p style="text-align: center; font-size: 1.2em; color: #7f8c8d; margin-bottom: 30px;">
+            <strong>A complete step-by-step guide for beginners</strong><br>
+            Get your iManage Uploader running in under 30 minutes!
+        </p>
+
+        <div class="nav-menu">
+            <a href="#requirements">Requirements</a>
+            <a href="#installation">Installation</a>
+            <a href="#setup">Setup</a>
+            <a href="#running">Running</a>
+            <a href="#troubleshooting">Troubleshooting</a>
+        </div>
+
+        <div class="success">
+            <strong>🎯 What You'll Achieve:</strong> By the end of this guide, you'll have a fully functional iManage Uploader running on your computer, ready to upload documents to iManage Work!
+        </div>
+
+        <h2 id="requirements"><span class="emoji">📋</span>What You'll Need</h2>
+        
+        <div class="info">
+            <strong>Don't worry if you're new to this!</strong> We'll guide you through installing everything step by step. Each piece of software serves a specific purpose in making the application work.
+        </div>
+
+        <div class="download-links">
+            <a href="https://nodejs.org" class="download-card" target="_blank">
+                <h3>Node.js</h3>
+                <p>The engine that runs our application</p>
+                <small>Download LTS Version</small>
+            </a>
+            <a href="https://git-scm.com/downloads" class="download-card" target="_blank">
+                <h3>Git</h3>
+                <p>Downloads code from GitHub</p>
+                <small>Version Control System</small>
+            </a>
+            <a href="https://www.postgresql.org/download/" class="download-card" target="_blank">
+                <h3>PostgreSQL</h3>
+                <p>Database for storing data</p>
+                <small>Include pgAdmin</small>
+            </a>
+            <a href="https://code.visualstudio.com/" class="download-card" target="_blank">
+                <h3>VS Code</h3>
+                <p>Code editor (optional)</p>
+                <small>Recommended for beginners</small>
+            </a>
+        </div>
+
+        <h2 id="installation"><span class="emoji">🛠️</span>Step-by-Step Installation</h2>
+
+        <div class="step-card">
+            <h3>Step 1: Install Node.js</h3>
+            <div class="checklist">
+                <ul>
+                    <li>Visit nodejs.org and download the LTS version</li>
+                    <li>Run the installer with default settings</li>
+                    <li>Make sure "Add to PATH" is checked</li>
+                    <li>Restart your computer after installation</li>
+                </ul>
+            </div>
+            
+            <div class="warning">
+                <strong>⚠️ Important:</strong> Choose the LTS (Long Term Support) version for stability. The installer should automatically add Node.js to your system PATH.
+            </div>
+
+            <p><strong>Verify Installation:</strong></p>
+            <div class="code-block">
+node --version
+npm --version
+            </div>
+            <p>You should see version numbers like <code>v18.17.0</code> and <code>9.6.7</code></p>
+        </div>
+
+        <div class="step-card">
+            <h3>Step 2: Install Git</h3>
+            <div class="checklist">
+                <ul>
+                    <li>Download Git from git-scm.com</li>
+                    <li>Install with default settings</li>
+                    <li>Choose "Git from the command line and also from 3rd-party software"</li>
+                </ul>
+            </div>
+
+            <p><strong>Verify Installation:</strong></p>
+            <div class="code-block">
+git --version
+            </div>
+        </div>
+
+        <div class="step-card">
+            <h3>Step 3: Install PostgreSQL</h3>
+            <div class="checklist">
+                <ul>
+                    <li>Download PostgreSQL from postgresql.org</li>
+                    <li>During installation, set a password for the 'postgres' user</li>
+                    <li>Remember this password - you'll need it later!</li>
+                    <li>Use default port 5432</li>
+                    <li>Install all components including pgAdmin</li>
+                </ul>
+            </div>
+
+            <div class="warning">
+                <strong>🔑 Critical:</strong> Write down the postgres user password somewhere safe. You'll need it to configure the application!
+            </div>
+        </div>
+
+        <h2 id="setup"><span class="emoji">📥</span>Download and Setup</h2>
+
+        <div class="step-card">
+            <h3>Step 4: Download the Application</h3>
+            
+            <p><strong>1. Create a Projects Folder:</strong></p>
+            <ul>
+                <li><strong>Windows:</strong> Create <code>C:\Projects\</code></li>
+                <li><strong>Mac/Linux:</strong> Create <code>~/Projects/</code></li>
+            </ul>
+
+            <p><strong>2. Open Command Prompt/Terminal:</strong></p>
+            <ul>
+                <li><strong>Windows:</strong> Press <code>Win + R</code>, type <code>cmd</code>, press Enter</li>
+                <li><strong>Mac:</strong> Press <code>Cmd + Space</code>, type <code>terminal</code>, press Enter</li>
+                <li><strong>Linux:</strong> Press <code>Ctrl + Alt + T</code></li>
+            </ul>
+
+            <p><strong>3. Navigate and Download:</strong></p>
+            <div class="code-block">
+# Navigate to your projects folder
+cd C:\Projects\          # Windows
+cd ~/Projects/           # Mac/Linux
+
+# Download the application
+git clone https://github.com/arv-qa/iManageUploader.git
+
+# Enter the application folder
+cd iManageUploader
+            </div>
+        </div>
+
+        <div class="step-card">
+            <h3>Step 5: Install Dependencies</h3>
+            
+            <div class="info">
+                <strong>What are dependencies?</strong> These are additional code libraries that our application needs to function properly. Think of them as ingredients for a recipe!
+            </div>
+
+            <div class="code-block">
+npm install
+            </div>
+
+            <p>This command will:</p>
+            <ul>
+                <li>Download all required libraries</li>
+                <li>Take 2-5 minutes depending on your internet speed</li>
+                <li>Show lots of text scrolling (this is normal!)</li>
+                <li>Create a <code>node_modules</code> folder</li>
+            </ul>
+        </div>
+
+        <div class="step-card">
+            <h3>Step 6: Configure the Database</h3>
+            
+            <p><strong>1. Create the Database:</strong></p>
+            <ul>
+                <li>Open pgAdmin (installed with PostgreSQL)</li>
+                <li>Connect using your postgres password</li>
+                <li>Right-click "Databases" → "Create" → "Database"</li>
+                <li>Name: <code>imanage_uploader</code></li>
+                <li>Click "Save"</li>
+            </ul>
+
+            <p><strong>2. Configure Connection:</strong></p>
+            <ul>
+                <li>In the application folder, copy <code>.env.example</code> to <code>.env</code></li>
+                <li>Open <code>.env</code> in a text editor</li>
+                <li>Update the DATABASE_URL line:</li>
+            </ul>
+
+            <div class="code-block">
+DATABASE_URL=postgresql://postgres:YOUR_PASSWORD@localhost:5432/imanage_uploader
+            </div>
+
+            <div class="warning">
+                <strong>Replace YOUR_PASSWORD</strong> with the actual password you set during PostgreSQL installation!
+            </div>
+
+            <p><strong>3. Create Database Tables:</strong></p>
+            <div class="code-block">
+npm run db:push
+            </div>
+        </div>
+
+        <h2 id="running"><span class="emoji">🚀</span>Running the Application</h2>
+
+        <div class="step-card">
+            <h3>Step 7: Start the Application</h3>
+            
+            <div class="code-block">
+npm run dev
+            </div>
+
+            <div class="success">
+                <strong>Success!</strong> You should see messages like:<br>
+                <code>Server running on http://localhost:5000</code>
+            </div>
+
+            <div class="warning">
+                <strong>Keep this window open!</strong> The application runs in this terminal window. Closing it will stop the application.
+            </div>
+        </div>
+
+        <div class="step-card">
+            <h3>Step 8: Access the Application</h3>
+            
+            <p><strong>1. Open your web browser</strong></p>
+            <p><strong>2. Go to:</strong> <code>http://localhost:5000</code></p>
+            <p><strong>3. You should see the iManage Uploader login page!</strong></p>
+
+            <div class="success">
+                <strong>🎉 Congratulations!</strong> Your iManage Uploader is now running!
+            </div>
+        </div>
+
+        <div class="step-card">
+            <h3>Step 9: Test Login</h3>
+            
+            <p>Use these demo credentials to test:</p>
+            <table>
+                <tr>
+                    <th>Field</th>
+                    <th>Value</th>
+                </tr>
+                <tr>
+                    <td>Server URL</td>
+                    <td>https://demo.imanage.com</td>
+                </tr>
+                <tr>
+                    <td>Username</td>
+                    <td>demo</td>
+                </tr>
+                <tr>
+                    <td>Password</td>
+                    <td>demo</td>
+                </tr>
+            </table>
+        </div>
+
+        <h2 id="troubleshooting"><span class="emoji">🔧</span>Troubleshooting</h2>
+
+        <div class="step-card">
+            <h3>Common Issues and Solutions</h3>
+            
+            <div class="warning">
+                <strong>Issue:</strong> "npm is not recognized"<br>
+                <strong>Solution:</strong> Node.js wasn't installed properly. Reinstall Node.js and make sure "Add to PATH" is checked. Restart your computer.
+            </div>
+
+            <div class="warning">
+                <strong>Issue:</strong> "Database connection failed"<br>
+                <strong>Solution:</strong> Check your .env file password, make sure PostgreSQL is running, and verify the database exists.
+            </div>
+
+            <div class="warning">
+                <strong>Issue:</strong> "Port 5000 is already in use"<br>
+                <strong>Solution:</strong> Another application is using port 5000. Change PORT=3000 in your .env file.
+            </div>
+        </div>
+
+        <h2><span class="emoji">🎯</span>Daily Usage</h2>
+
+        <div class="step-card">
+            <h3>Starting the Application (After Initial Setup)</h3>
+            <div class="code-block">
+# Navigate to application folder
+cd C:\Projects\iManageUploader    # Windows
+cd ~/Projects/iManageUploader     # Mac/Linux
+
+# Start the application
+npm run dev
+
+# Open browser and go to: http://localhost:5000
+            </div>
+
+            <h3>Stopping the Application</h3>
+            <p>Press <code>Ctrl + C</code> in the terminal window where the application is running.</p>
+        </div>
+
+        <div class="success">
+            <h3><span class="emoji">🎉</span>You're All Set!</h3>
+            <p>Your iManage Uploader is now ready to use! You can start uploading documents to iManage Work efficiently. For more advanced features and configuration options, check out the other documentation files in the project.</p>
+        </div>
+
+        <div class="info">
+            <strong>📚 Additional Resources:</strong>
+            <ul>
+                <li><strong>README.html</strong> - Complete feature documentation</li>
+                <li><strong>API_DOCUMENTATION.html</strong> - Technical API reference</li>
+                <li><strong>DEVELOPMENT.html</strong> - For developers who want to modify the code</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
