@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iManage Uploader - Development Guide</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #9b59b6;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+        h2 {
+            color: #34495e;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            border-left: 4px solid #9b59b6;
+            padding-left: 15px;
+        }
+        h3 {
+            color: #7f8c8d;
+            margin-top: 25px;
+        }
+        .code-block {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+        }
+        .info-box {
+            background: #e8f4fd;
+            border: 1px solid #bee5eb;
+            color: #0c5460;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        .warning {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        .success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        .tech-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            background: #9b59b6;
+            color: white;
+            border-radius: 4px;
+            font-size: 0.8em;
+            margin: 2px;
+        }
+        .step-card {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+            border-left: 4px solid #9b59b6;
+        }
+        .file-tree {
+            background: #f1f3f4;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            margin: 15px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        .nav-menu {
+            background: #34495e;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        .nav-menu a {
+            color: #ecf0f1;
+            text-decoration: none;
+            margin-right: 20px;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: background 0.3s;
+        }
+        .nav-menu a:hover {
+            background: #2c3e50;
+        }
+        .checklist {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        .checklist ul {
+            list-style: none;
+            padding: 0;
+        }
+        .checklist li {
+            padding: 5px 0;
+            position: relative;
+            padding-left: 25px;
+        }
+        .checklist li:before {
+            content: "☐";
+            position: absolute;
+            left: 0;
+            color: #9b59b6;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🛠️ Development Guide</h1>
+        <p><strong>Complete setup and contribution guide for iManage Uploader</strong></p>
+        
+        <div class="nav-menu">
+            <a href="#setup">Environment Setup</a>
+            <a href="#development">Development Workflow</a>
+            <a href="#testing">Testing</a>
+            <a href="#deployment">Deployment</a>
+            <a href="#contributing">Contributing</a>
+        </div>
+
+        <h2 id="setup">🚀 Environment Setup</h2>
+        
+        <h3>Prerequisites</h3>
+        <div class="checklist">
+            <ul>
+                <li>Node.js 18.0 or higher</li>
+                <li>npm 8.0 or higher</li>
+                <li>PostgreSQL 13 or higher</li>
+                <li>Git for version control</li>
+                <li>Code editor (VS Code recommended)</li>
+            </ul>
+        </div>
+
+        <h3>Technology Stack</h3>
+        <div style="margin: 15px 0;">
+            <span class="tech-badge">React 18</span>
+            <span class="tech-badge">TypeScript</span>
+            <span class="tech-badge">Express.js</span>
+            <span class="tech-badge">PostgreSQL</span>
+            <span class="tech-badge">Drizzle ORM</span>
+            <span class="tech-badge">Tailwind CSS</span>
+            <span class="tech-badge">Vite</span>
+            <span class="tech-badge">TanStack Query</span>
+        </div>
+
+        <div class="step-card">
+            <h3>Step 1: Clone Repository</h3>
+            <div class="code-block">
+git clone https://github.com/your-username/iManageUploader.git
+cd iManageUploader
+            </div>
+        </div>
+
+        <div class="step-card">
+            <h3>Step 2: Install Dependencies</h3>
+            <div class="code-block">
+# Install all dependencies
+npm install
+
+# Verify installation
+npm list --depth=0
+            </div>
+        </div>
+
+        <div class="step-card">
+            <h3>Step 3: Database Setup</h3>
+            <div class="code-block">
+# Create PostgreSQL database
+createdb imanage_uploader
+
+# Create environment file
+cp .env.example .env
+
+# Edit .env with your database configuration
+# DATABASE_URL=postgresql://username:password@localhost:5432/imanage_uploader
+            </div>
+            
+            <div class="info-box">
+                <strong>💡 Database Configuration:</strong> Make sure to update the DATABASE_URL in your .env file with your actual PostgreSQL credentials.
+            </div>
+        </div>
+
+        <div class="step-card">
+            <h3>Step 4: Run Database Migrations</h3>
+            <div class="code-block">
+# Push database schema
+npm run db:push
+
+# Verify tables were created
+psql imanage_uploader -c "\dt"
+            </div>
+        </div>
+
+        <div class="step-card">
+            <h3>Step 5: Start Development Server</h3>
+            <div class="code-block">
+# Start the development server
+npm run dev
+
+# Server will be available at http://localhost:5000
+            </div>
+            
+            <div class="success">
+                <strong>🎉 Success!</strong> Your development environment is now ready. The application should be running at <code>http://localhost:5000</code>
+            </div>
+        </div>
+
+        <h2 id="development">💻 Development Workflow</h2>
+        
+        <h3>Project Structure</h3>
+        <div class="file-tree">
+iManageUploader/
+├── client/                 # React frontend application
+│   ├── src/
+│   │   ├── components/    # Reusable UI components
+│   │   │   ├── auth/      # Authentication components
+│   │   │   ├── common/    # Shared components
+│   │   │   ├── layout/    # Layout components
+│   │   │   ├── ui/        # Base UI components (Radix UI)
+│   │   │   ├── upload/    # Upload-related components
+│   │   │   └── workspace/ # Workspace components
+│   │   ├── hooks/         # Custom React hooks
+│   │   ├── lib/           # Utility functions
+│   │   ├── pages/         # Application pages
+│   │   ├── App.tsx        # Main application component
+│   │   └── main.tsx       # Application entry point
+│   └── index.html         # HTML template
+├── server/                # Express.js backend
+│   ├── index.ts          # Server entry point
+│   ├── routes.ts         # API route definitions
+│   ├── storage.ts        # Database operations
+│   └── vite.ts           # Vite integration
+├── shared/               # Shared types and schemas
+│   └── schema.ts        # Database schema and Zod validation
+├── docs/                # Documentation files
+├── package.json         # Project dependencies and scripts
+├── tsconfig.json        # TypeScript configuration
+├── tailwind.config.ts   # Tailwind CSS configuration
+├── vite.config.ts       # Vite build configuration
+└── drizzle.config.ts    # Drizzle ORM configuration
+        </div>
+
+        <h3>Available Scripts</h3>
+        <table>
+            <tr>
+                <th>Command</th>
+                <th>Description</th>
+                <th>Usage</th>
+            </tr>
+            <tr>
+                <td><code>npm run dev</code></td>
+                <td>Start development server with hot reload</td>
+                <td>Daily development</td>
+            </tr>
+            <tr>
+                <td><code>npm run build</code></td>
+                <td>Build for production</td>
+                <td>Before deployment</td>
+            </tr>
+            <tr>
+                <td><code>npm run start</code></td>
+                <td>Start production server</td>
+                <td>Production deployment</td>
+            </tr>
+            <tr>
+                <td><code>npm run check</code></td>
+                <td>Run TypeScript type checking</td>
+                <td>Before commits</td>
+            </tr>
+            <tr>
+                <td><code>npm run db:push</code></td>
+                <td>Push database schema changes</td>
+                <td>After schema updates</td>
+            </tr>
+        </table>
+
+        <h3>Development Best Practices</h3>
+        
+        <div class="info-box">
+            <h4>🎯 Code Style Guidelines</h4>
+            <ul>
+                <li>Use TypeScript for all new code</li>
+                <li>Follow React functional component patterns</li>
+                <li>Use custom hooks for reusable logic</li>
+                <li>Implement proper error boundaries</li>
+                <li>Write descriptive commit messages</li>
+            </ul>
+        </div>
+
+        <div class="info-box">
+            <h4>📁 Component Organization</h4>
+            <ul>
+                <li>Group related components in folders</li>
+                <li>Use index.ts files for clean imports</li>
+                <li>Keep components small and focused</li>
+                <li>Extract reusable logic into custom hooks</li>
+                <li>Use proper TypeScript interfaces</li>
+            </ul>
+        </div>
+
+        <h3>Database Development</h3>
+        
+        <div class="step-card">
+            <h4>Making Schema Changes</h4>
+            <div class="code-block">
+# 1. Edit shared/schema.ts
+# 2. Push changes to database
+npm run db:push
+
+# 3. Verify changes
+npm run check
+            </div>
+        </div>
+
+        <div class="warning">
+            <strong>⚠️ Database Migrations:</strong> Always backup your database before making schema changes in production. Use proper migration strategies for production deployments.
+        </div>
+
+        <h2 id="testing">🧪 Testing</h2>
+        
+        <h3>Testing Strategy</h3>
+        <p>While the current setup doesn't include automated tests, here's the recommended testing approach:</p>
+        
+        <div class="info-box">
+            <h4>🔍 Manual Testing Checklist</h4>
+            <ul>
+                <li>Authentication flow with valid/invalid credentials</li>
+                <li>Workspace selection and metadata loading</li>
+                <li>File upload with various file types and sizes</li>
+                <li>Progress tracking and error handling</li>
+                <li>Retry functionality for failed uploads</li>
+                <li>Responsive design on different screen sizes</li>
+            </ul>
+        </div>
+
+        <h3>API Testing</h3>
+        <div class="code-block">
+# Test authentication endpoint
+curl -X POST http://localhost:5000/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"serverUrl":"https://test.com","username":"test","password":"test"}'
+
+# Test workspaces endpoint (replace TOKEN with actual token)
+curl -X GET http://localhost:5000/api/workspaces \
+  -H "Authorization: Bearer TOKEN"
+        </div>
+
+        <h2 id="deployment">🚀 Deployment</h2>
+        
+        <h3>Production Build</h3>
+        <div class="step-card">
+            <div class="code-block">
+# Create production build
+npm run build
+
+# Start production server
+npm run start
+            </div>
+        </div>
+
+        <h3>Environment Variables</h3>
+        <table>
+            <tr>
+                <th>Variable</th>
+                <th>Description</th>
+                <th>Required</th>
+            </tr>
+            <tr>
+                <td>DATABASE_URL</td>
+                <td>PostgreSQL connection string</td>
+                <td>Yes</td>
+            </tr>
+            <tr>
+                <td>NODE_ENV</td>
+                <td>Environment (development/production)</td>
+                <td>Yes</td>
+            </tr>
+            <tr>
+                <td>PORT</td>
+                <td>Server port (default: 5000)</td>
+                <td>No</td>
+            </tr>
+        </table>
+
+        <h3>Docker Deployment (Optional)</h3>
+        <div class="code-block">
+# Create Dockerfile
+FROM node:18-alpine
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci --only=production
+COPY . .
+RUN npm run build
+EXPOSE 5000
+CMD ["npm", "start"]
+
+# Build and run
+docker build -t imanage-uploader .
+docker run -p 5000:5000 imanage-uploader
+        </div>
+
+        <h2 id="contributing">🤝 Contributing</h2>
+        
+        <h3>Getting Started</h3>
+        <div class="step-card">
+            <h4>1. Fork and Clone</h4>
+            <div class="code-block">
+# Fork the repository on GitHub
+# Clone your fork
+git clone https://github.com/YOUR-USERNAME/iManageUploader.git
+cd iManageUploader
+
+# Add upstream remote
+git remote add upstream https://github.com/ORIGINAL-OWNER/iManageUploader.git
+            </div>
+        </div>
+
+        <div class="step-card">
+            <h4>2. Create Feature Branch</h4>
+            <div class="code-block">
+# Create and switch to feature branch
+git checkout -b feature/your-feature-name
+
+# Make your changes
+# ...
+
+# Commit changes
+git add .
+git commit -m "feat: add your feature description"
+            </div>
+        </div>
+
+        <div class="step-card">
+            <h4>3. Submit Pull Request</h4>
+            <div class="code-block">
+# Push to your fork
+git push origin feature/your-feature-name
+
+# Create pull request on GitHub
+# Include description of changes and testing performed
+            </div>
+        </div>
+
+        <h3>Commit Message Guidelines</h3>
+        <div class="info-box">
+            <p>Use conventional commit format:</p>
+            <ul>
+                <li><code>feat:</code> New features</li>
+                <li><code>fix:</code> Bug fixes</li>
+                <li><code>docs:</code> Documentation updates</li>
+                <li><code>style:</code> Code style changes</li>
+                <li><code>refactor:</code> Code refactoring</li>
+                <li><code>test:</code> Adding tests</li>
+                <li><code>chore:</code> Maintenance tasks</li>
+            </ul>
+        </div>
+
+        <h3>Pull Request Checklist</h3>
+        <div class="checklist">
+            <ul>
+                <li>Code follows project style guidelines</li>
+                <li>Changes are tested manually</li>
+                <li>Documentation is updated if needed</li>
+                <li>Commit messages follow conventions</li>
+                <li>No console.log statements in production code</li>
+                <li>TypeScript types are properly defined</li>
+                <li>Changes don't break existing functionality</li>
+            </ul>
+        </div>
+
+        <h3>Code Review Process</h3>
+        <div class="info-box">
+            <ol>
+                <li><strong>Automated Checks:</strong> TypeScript compilation and basic linting</li>
+                <li><strong>Manual Review:</strong> Code quality, architecture, and best practices</li>
+                <li><strong>Testing:</strong> Manual testing of new features and regression testing</li>
+                <li><strong>Documentation:</strong> Ensure documentation is updated for new features</li>
+                <li><strong>Approval:</strong> At least one maintainer approval required</li>
+            </ol>
+        </div>
+
+        <h3>Getting Help</h3>
+        <div class="success">
+            <p><strong>Need assistance?</strong></p>
+            <ul>
+                <li>Check existing issues on GitHub</li>
+                <li>Create a new issue with detailed description</li>
+                <li>Join our development discussions</li>
+                <li>Review the API documentation</li>
+            </ul>
+        </div>
+
+        <div class="warning">
+            <strong>🔒 Security:</strong> Never commit sensitive information like API keys, passwords, or database credentials. Use environment variables for all sensitive configuration.
+        </div>
+    </div>
+</body>
+</html>

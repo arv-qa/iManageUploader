@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iManage Uploader - Bulk Document Upload Tool</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+        h2 {
+            color: #34495e;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        h3 {
+            color: #7f8c8d;
+            margin-top: 25px;
+        }
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            background: #3498db;
+            color: white;
+            border-radius: 4px;
+            font-size: 0.8em;
+            margin: 2px;
+        }
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .feature-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+        .code-block {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin: 10px 0;
+        }
+        .warning {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        .success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        ul, ol {
+            padding-left: 20px;
+        }
+        li {
+            margin: 5px 0;
+        }
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 15px 0;
+        }
+        .workflow-step {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+        .api-endpoint {
+            background: #f1f2f6;
+            border-left: 4px solid #2ed573;
+            padding: 10px;
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        .screenshot-placeholder {
+            background: #e9ecef;
+            border: 2px dashed #adb5bd;
+            padding: 40px;
+            text-align: center;
+            border-radius: 8px;
+            margin: 20px 0;
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 iManage Uploader</h1>
+        <p><strong>A modern, web-based bulk document upload tool for iManage Work</strong></p>
+        
+        <div class="tech-stack">
+            <span class="badge">React 18</span>
+            <span class="badge">TypeScript</span>
+            <span class="badge">Express.js</span>
+            <span class="badge">Node.js</span>
+            <span class="badge">PostgreSQL</span>
+            <span class="badge">Tailwind CSS</span>
+            <span class="badge">Vite</span>
+            <span class="badge">Drizzle ORM</span>
+        </div>
+
+        <h2>📋 Overview</h2>
+        <p>iManage Uploader is a comprehensive web application designed to streamline bulk document uploads to iManage Work. Built with modern web technologies, it provides an intuitive interface for users to authenticate, select workspaces, configure metadata, and upload multiple documents efficiently.</p>
+
+        <div class="success">
+            <strong>✅ Production Ready:</strong> This application includes authentication, progress tracking, error handling, and a responsive UI suitable for enterprise environments.
+        </div>
+
+        <h2>🌟 Key Features</h2>
+        <div class="feature-grid">
+            <div class="feature-card">
+                <h3>🔐 Secure Authentication</h3>
+                <p>OAuth2-compatible login system with token management and session handling for iManage Work integration.</p>
+            </div>
+            <div class="feature-card">
+                <h3>📁 Workspace Management</h3>
+                <p>Dynamic workspace selection with metadata field configuration based on workspace requirements.</p>
+            </div>
+            <div class="feature-card">
+                <h3>📤 Bulk Upload</h3>
+                <p>Multi-file upload with drag-and-drop support, progress tracking, and retry functionality for failed uploads.</p>
+            </div>
+            <div class="feature-card">
+                <h3>📊 Real-time Progress</h3>
+                <p>Live upload progress monitoring with detailed status for each file and overall session progress.</p>
+            </div>
+            <div class="feature-card">
+                <h3>🎨 Modern UI</h3>
+                <p>Responsive design built with Tailwind CSS and Radix UI components for excellent user experience.</p>
+            </div>
+            <div class="feature-card">
+                <h3>🔄 Error Recovery</h3>
+                <p>Intelligent retry mechanisms for failed uploads with detailed error reporting and recovery options.</p>
+            </div>
+        </div>
+
+        <h2>🏗️ Architecture</h2>
+        <div class="workflow-step">
+            <strong>Frontend:</strong> React 18 with TypeScript, Vite for build tooling, TanStack Query for state management, and Tailwind CSS for styling.
+        </div>
+        <div class="workflow-step">
+            <strong>Backend:</strong> Express.js server with TypeScript, Drizzle ORM for database operations, and Multer for file handling.
+        </div>
+        <div class="workflow-step">
+            <strong>Database:</strong> PostgreSQL with Drizzle ORM for type-safe database operations and migrations.
+        </div>
+
+        <h2>🚀 Quick Start</h2>
+        
+        <h3>Prerequisites</h3>
+        <ul>
+            <li>Node.js 18+ and npm</li>
+            <li>PostgreSQL database</li>
+            <li>iManage Work server access</li>
+        </ul>
+
+        <h3>Installation</h3>
+        <div class="code-block">
+# Clone the repository
+git clone https://github.com/your-username/iManageUploader.git
+cd iManageUploader
+
+# Install dependencies
+npm install
+
+# Set up environment variables
+cp .env.example .env
+# Edit .env with your database and iManage configuration
+
+# Run database migrations
+npm run db:push
+
+# Start development server
+npm run dev
+        </div>
+
+        <div class="success">
+            <strong>🎉 Ready to go!</strong> The application will be available at <code>http://localhost:5000</code>
+        </div>
+
+        <h2>📖 Usage Guide</h2>
+        
+        <h3>Step 1: Authentication</h3>
+        <p>Enter your iManage server URL, username, and password to authenticate and establish a secure session.</p>
+        
+        <h3>Step 2: Select Workspace</h3>
+        <p>Choose from available workspaces. The application will automatically load the metadata fields required for that workspace.</p>
+        
+        <h3>Step 3: Upload Files</h3>
+        <p>Drag and drop files or click to select multiple documents. Configure metadata fields as required by your workspace.</p>
+        
+        <h3>Step 4: Monitor Progress</h3>
+        <p>Track upload progress in real-time with detailed status for each file. Retry failed uploads as needed.</p>
+
+        <h2>🛠️ Development</h2>
+        
+        <h3>Available Scripts</h3>
+        <table>
+            <tr>
+                <th>Command</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <td><code>npm run dev</code></td>
+                <td>Start development server with hot reload</td>
+            </tr>
+            <tr>
+                <td><code>npm run build</code></td>
+                <td>Build for production</td>
+            </tr>
+            <tr>
+                <td><code>npm run start</code></td>
+                <td>Start production server</td>
+            </tr>
+            <tr>
+                <td><code>npm run check</code></td>
+                <td>Run TypeScript type checking</td>
+            </tr>
+            <tr>
+                <td><code>npm run db:push</code></td>
+                <td>Push database schema changes</td>
+            </tr>
+        </table>
+
+        <h2>📁 Project Structure</h2>
+        <div class="code-block">
+iManageUploader/
+├── client/                 # React frontend
+│   ├── src/
+│   │   ├── components/    # Reusable UI components
+│   │   ├── pages/         # Application pages
+│   │   ├── hooks/         # Custom React hooks
+│   │   └── lib/           # Utility functions
+├── server/                # Express.js backend
+│   ├── index.ts          # Server entry point
+│   ├── routes.ts         # API route definitions
+│   └── storage.ts        # Database operations
+├── shared/               # Shared types and schemas
+│   └── schema.ts        # Database schema and types
+└── docs/                # Documentation files
+        </div>
+
+        <h2>🤝 Contributing</h2>
+        <p>We welcome contributions! Please see our <a href="DEVELOPMENT.html">Development Guide</a> for detailed information on setting up the development environment and our coding standards.</p>
+
+        <h2>📄 License</h2>
+        <p>This project is licensed under the MIT License. See the LICENSE file for details.</p>
+
+        <h2>🔗 Additional Resources</h2>
+        <ul>
+            <li><a href="API_DOCUMENTATION.html">API Documentation</a> - Detailed API endpoint documentation</li>
+            <li><a href="DEVELOPMENT.html">Development Guide</a> - Setup and contribution guidelines</li>
+            <li><a href="https://docs.imanage.com">iManage Work API Documentation</a></li>
+        </ul>
+
+        <div class="warning">
+            <strong>⚠️ Note:</strong> This application includes mock authentication for development purposes. In production, ensure proper integration with your iManage Work server and implement appropriate security measures.
+        </div>
+    </div>
+</body>
+</html>
