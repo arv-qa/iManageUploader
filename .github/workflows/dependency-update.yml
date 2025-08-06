@@ -1,0 +1,258 @@
+name: Dependency Updates
+
+on:
+  schedule:
+    # Run every Monday at 9 AM UTC
+    - cron: '0 9 * * 1'
+  workflow_dispatch: # Allow manual trigger
+
+env:
+  NODE_VERSION: '18'
+
+jobs:
+  # Check for outdated dependencies
+  dependency-check:
+    name: Check Dependencies
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check for outdated packages
+        run: |
+          echo "📦 Checking for outdated dependencies..."
+          npm outdated --json > outdated.json || true
+          
+          if [ -s outdated.json ]; then
+            echo "Found outdated dependencies:"
+            cat outdated.json
+            
+            # Create issue for outdated dependencies
+            echo "OUTDATED_DEPS=true" >> $GITHUB_ENV
+          else
+            echo "All dependencies are up to date!"
+            echo "OUTDATED_DEPS=false" >> $GITHUB_ENV
+          fi
+
+      - name: Security audit
+        run: |
+          echo "🔒 Running security audit..."
+          npm audit --json > audit.json || true
+          
+          if grep -q '"vulnerabilities":' audit.json && ! grep -q '"vulnerabilities":{}' audit.json; then
+            echo "Security vulnerabilities found!"
+            echo "SECURITY_ISSUES=true" >> $GITHUB_ENV
+          else
+            echo "No security vulnerabilities found!"
+            echo "SECURITY_ISSUES=false" >> $GITHUB_ENV
+          fi
+
+      - name: Upload reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: dependency-reports
+          path: |
+            outdated.json
+            audit.json
+          retention-days: 30
+
+      - name: Create issue for outdated dependencies
+        if: env.OUTDATED_DEPS == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            
+            let outdatedContent = '';
+            try {
+              const outdated = JSON.parse(fs.readFileSync('outdated.json', 'utf8'));
+              outdatedContent = '### Outdated Dependencies\n\n';
+              
+              for (const [pkg, info] of Object.entries(outdated)) {
+                outdatedContent += `- **${pkg}**: ${info.current} → ${info.wanted} (latest: ${info.latest})\n`;
+              }
+            } catch (e) {
+              outdatedContent = 'Could not parse outdated dependencies report.';
+            }
+            
+            const body = `## 📦 Dependency Update Report
+            
+            This is an automated report of outdated dependencies in the project.
+            
+            ${outdatedContent}
+            
+            ### Recommended Actions:
+            1. Review the outdated dependencies
+            2. Test updates in a development environment
+            3. Update dependencies with: \`npm update\`
+            4. For major version updates, review breaking changes
+            
+            ### Security Note:
+            Security issues: ${{ env.SECURITY_ISSUES }}
+            
+            ---
+            *This issue was automatically created by the dependency update workflow.*
+            `;
+            
+            // Check if similar issue already exists
+            const { data: issues } = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: ['dependencies', 'automated'],
+              state: 'open'
+            });
+            
+            if (issues.length === 0) {
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: `📦 Dependency Update Report - ${new Date().toISOString().split('T')[0]}`,
+                body: body,
+                labels: ['dependencies', 'automated', 'maintenance']
+              });
+            }
+
+      - name: Create security issue
+        if: env.SECURITY_ISSUES == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            
+            let auditContent = '';
+            try {
+              const audit = JSON.parse(fs.readFileSync('audit.json', 'utf8'));
+              auditContent = '### Security Vulnerabilities\n\n';
+              
+              if (audit.vulnerabilities) {
+                for (const [pkg, vuln] of Object.entries(audit.vulnerabilities)) {
+                  auditContent += `- **${pkg}**: ${vuln.severity} severity\n`;
+                  if (vuln.via && vuln.via.length > 0) {
+                    auditContent += `  - Via: ${vuln.via.join(', ')}\n`;
+                  }
+                }
+              }
+            } catch (e) {
+              auditContent = 'Could not parse security audit report.';
+            }
+            
+            const body = `## 🔒 Security Vulnerability Report
+            
+            **⚠️ SECURITY ALERT: Vulnerabilities detected in dependencies**
+            
+            ${auditContent}
+            
+            ### Immediate Actions Required:
+            1. Run \`npm audit fix\` to automatically fix issues
+            2. For manual fixes, run \`npm audit\` for detailed information
+            3. Test the application after applying fixes
+            4. Consider updating to newer versions if auto-fix doesn't work
+            
+            ### Priority:
+            - **High/Critical**: Fix immediately
+            - **Moderate**: Fix within 1 week
+            - **Low**: Fix in next maintenance cycle
+            
+            ---
+            *This is an automated security alert. Please address these issues promptly.*
+            `;
+            
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `🔒 SECURITY: Vulnerabilities detected - ${new Date().toISOString().split('T')[0]}`,
+              body: body,
+              labels: ['security', 'vulnerability', 'high-priority', 'automated']
+            });
+
+  # Auto-update minor and patch versions
+  auto-update:
+    name: Auto Update Dependencies
+    runs-on: ubuntu-latest
+    needs: dependency-check
+    if: github.event_name == 'workflow_dispatch' # Only run on manual trigger
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Configure Git
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+
+      - name: Update patch and minor versions
+        run: |
+          echo "📦 Updating patch and minor versions..."
+          npm update
+          
+          # Check if package-lock.json was modified
+          if git diff --quiet package-lock.json; then
+            echo "No updates available"
+            echo "UPDATES_AVAILABLE=false" >> $GITHUB_ENV
+          else
+            echo "Updates applied"
+            echo "UPDATES_AVAILABLE=true" >> $GITHUB_ENV
+          fi
+
+      - name: Run tests after update
+        if: env.UPDATES_AVAILABLE == 'true'
+        run: |
+          npm ci
+          npm run check
+          npm run build
+          # Add test command when available
+          # npm test
+
+      - name: Create pull request
+        if: env.UPDATES_AVAILABLE == 'true'
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: 'chore: update dependencies (patch/minor versions)'
+          title: '📦 Automated dependency updates'
+          body: |
+            ## Automated Dependency Updates
+            
+            This PR contains automated updates for patch and minor versions of dependencies.
+            
+            ### Changes:
+            - Updated patch and minor versions using `npm update`
+            - All builds and type checks pass
+            
+            ### Testing:
+            - ✅ TypeScript compilation
+            - ✅ Build process
+            - ⚠️  Manual testing recommended
+            
+            ### Review Notes:
+            - These are non-breaking changes (patch/minor versions only)
+            - Please review the changes and test functionality
+            - Merge when ready or close if issues are found
+            
+            ---
+            *This PR was automatically created by the dependency update workflow.*
+          branch: automated/dependency-updates
+          delete-branch: true
+          labels: |
+            dependencies
+            automated
+            maintenance

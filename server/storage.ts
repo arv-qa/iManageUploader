@@ -34,6 +34,9 @@ export interface IStorage {
   createUploadedFile(file: InsertUploadedFile): Promise<UploadedFile>;
   updateFileStatus(id: string, status: string, errorMessage?: string): Promise<void>;
   getSessionFiles(sessionId: string): Promise<UploadedFile[]>;
+
+  // Health check
+  healthCheck(): Promise<boolean>;
 }
 
 export class MemStorage implements IStorage {
@@ -208,6 +211,18 @@ export class MemStorage implements IStorage {
 
   async getSessionFiles(sessionId: string): Promise<UploadedFile[]> {
     return Array.from(this.uploadedFiles.values()).filter(file => file.sessionId === sessionId);
+  }
+
+  async healthCheck(): Promise<boolean> {
+    try {
+      // For in-memory storage, just check if the maps are accessible
+      return this.users instanceof Map &&
+             this.workspaces instanceof Map &&
+             this.uploadSessions instanceof Map &&
+             this.uploadedFiles instanceof Map;
+    } catch (error) {
+      return false;
+    }
   }
 }
 

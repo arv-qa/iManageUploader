@@ -1,0 +1,90 @@
+{
+  "server": {
+    "port": 5000,
+    "host": "localhost",
+    "cors": {
+      "origin": ["http://localhost:5000", "http://localhost:5173"],
+      "credentials": true
+    }
+  },
+  "database": {
+    "url": "postgresql://postgres:postgres@localhost:5432/imanage_uploader_dev",
+    "ssl": false,
+    "pool": {
+      "min": 2,
+      "max": 10
+    }
+  },
+  "redis": {
+    "url": "redis://localhost:6379",
+    "keyPrefix": "imanage:dev:",
+    "ttl": 3600
+  },
+  "session": {
+    "secret": "dev-session-secret-change-in-production",
+    "name": "imanage.sid",
+    "cookie": {
+      "secure": false,
+      "httpOnly": true,
+      "maxAge": 86400000,
+      "sameSite": "lax"
+    }
+  },
+  "upload": {
+    "maxFileSize": 52428800,
+    "allowedMimeTypes": [
+      "application/pdf",
+      "application/msword",
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "application/vnd.ms-excel",
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "text/plain",
+      "text/csv"
+    ],
+    "uploadTimeout": 300000,
+    "tempDir": "./uploads/temp",
+    "storageDir": "./uploads/files"
+  },
+  "imanage": {
+    "serverUrl": "https://demo.imanage.com",
+    "apiVersion": "v1",
+    "timeout": 30000,
+    "retryAttempts": 3,
+    "retryDelay": 1000
+  },
+  "logging": {
+    "level": "debug",
+    "format": "dev",
+    "file": {
+      "enabled": true,
+      "filename": "logs/development.log",
+      "maxSize": "10m",
+      "maxFiles": "5d"
+    },
+    "console": {
+      "enabled": true,
+      "colorize": true
+    }
+  },
+  "security": {
+    "rateLimiting": {
+      "enabled": true,
+      "windowMs": 900000,
+      "max": 100
+    },
+    "helmet": {
+      "enabled": true,
+      "contentSecurityPolicy": false
+    }
+  },
+  "monitoring": {
+    "healthCheck": {
+      "enabled": true,
+      "path": "/api/health"
+    },
+    "metrics": {
+      "enabled": true,
+      "path": "/api/metrics"
+    }
+  }
+}

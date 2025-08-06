@@ -32,6 +32,35 @@ const upload = multer({
 });
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Health check endpoint
+  app.get("/api/health", async (req, res) => {
+    try {
+      // Check database connection
+      const dbHealthy = await storage.healthCheck();
+
+      const healthStatus = {
+        status: "healthy",
+        timestamp: new Date().toISOString(),
+        version: process.env.npm_package_version || "1.0.0",
+        environment: process.env.NODE_ENV || "development",
+        uptime: process.uptime(),
+        database: dbHealthy ? "connected" : "disconnected",
+        memory: {
+          used: Math.round(process.memoryUsage().heapUsed / 1024 / 1024),
+          total: Math.round(process.memoryUsage().heapTotal / 1024 / 1024)
+        }
+      };
+
+      res.status(200).json(healthStatus);
+    } catch (error) {
+      res.status(503).json({
+        status: "unhealthy",
+        timestamp: new Date().toISOString(),
+        error: error instanceof Error ? error.message : "Unknown error"
+      });
+    }
+  });
+
   // Authentication endpoint
   app.post("/api/auth/login", async (req, res) => {
     try {

@@ -1,0 +1,116 @@
+version: '3.8'
+
+services:
+  # Development PostgreSQL Database
+  postgres-dev:
+    image: postgres:15-alpine
+    container_name: imanage-uploader-db-dev
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: imanage_uploader_dev
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - postgres_dev_data:/var/lib/postgresql/data
+      - ./scripts/init-db.sql:/docker-entrypoint-initdb.d/init-db.sql:ro
+    ports:
+      - "5433:5432"
+    networks:
+      - imanage-dev-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d imanage_uploader_dev"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Development Redis
+  redis-dev:
+    image: redis:7-alpine
+    container_name: imanage-uploader-redis-dev
+    restart: unless-stopped
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_dev_data:/data
+    ports:
+      - "6380:6379"
+    networks:
+      - imanage-dev-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+  # Development Application (with hot reload)
+  app-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: imanage-uploader-app-dev
+    restart: unless-stopped
+    environment:
+      NODE_ENV: development
+      PORT: 5000
+      DATABASE_URL: postgresql://postgres:postgres@postgres-dev:5432/imanage_uploader_dev
+      REDIS_URL: redis://redis-dev:6379
+      SESSION_SECRET: dev-secret-key
+      LOG_LEVEL: debug
+    ports:
+      - "5001:5000"
+      - "5173:5173"  # Vite dev server
+    depends_on:
+      postgres-dev:
+        condition: service_healthy
+      redis-dev:
+        condition: service_healthy
+    networks:
+      - imanage-dev-network
+    volumes:
+      - .:/app:cached
+      - /app/node_modules
+      - ./uploads:/app/uploads:rw
+    command: npm run dev
+
+  # Database administration tool
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: imanage-uploader-pgadmin
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@imanage-uploader.local
+      PGADMIN_DEFAULT_PASSWORD: admin
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    ports:
+      - "5050:80"
+    depends_on:
+      - postgres-dev
+    networks:
+      - imanage-dev-network
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+
+  # Redis administration tool
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    container_name: imanage-uploader-redis-commander
+    restart: unless-stopped
+    environment:
+      REDIS_HOSTS: local:redis-dev:6379
+    ports:
+      - "8081:8081"
+    depends_on:
+      - redis-dev
+    networks:
+      - imanage-dev-network
+
+volumes:
+  postgres_dev_data:
+    driver: local
+  redis_dev_data:
+    driver: local
+  pgadmin_data:
+    driver: local
+
+networks:
+  imanage-dev-network:
+    driver: bridge
