@@ -40,7 +40,7 @@ jobs:
           echo "Linting step - add ESLint configuration"
 
       - name: Security audit
-        run: npm audit --audit-level=moderate
+        run: npm audit --audit-level=high
 
       - name: Check for outdated dependencies
         run: npm outdated || true
