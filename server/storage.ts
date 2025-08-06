@@ -146,17 +146,29 @@ export class MemStorage implements IStorage {
 
   async createWorkspace(workspace: InsertWorkspace): Promise<Workspace> {
     const id = randomUUID();
-    const newWorkspace: Workspace = { ...workspace, id };
+    const newWorkspace: Workspace = {
+      ...workspace,
+      id,
+      description: workspace.description || null,
+      userId: workspace.userId || null,
+      metadataFields: workspace.metadataFields || null
+    };
     this.workspaces.set(id, newWorkspace);
     return newWorkspace;
   }
 
   async createUploadSession(session: InsertUploadSession): Promise<UploadSession> {
     const id = randomUUID();
-    const uploadSession: UploadSession = { 
-      ...session, 
+    const uploadSession: UploadSession = {
+      ...session,
       id,
-      createdAt: new Date()
+      createdAt: new Date(),
+      status: session.status || "pending",
+      completedFiles: session.completedFiles || 0,
+      failedFiles: session.failedFiles || 0,
+      userId: session.userId || null,
+      workspaceId: session.workspaceId || null,
+      metadata: session.metadata || null
     };
     this.uploadSessions.set(id, uploadSession);
     return uploadSession;
@@ -185,10 +197,13 @@ export class MemStorage implements IStorage {
 
   async createUploadedFile(file: InsertUploadedFile): Promise<UploadedFile> {
     const id = randomUUID();
-    const uploadedFile: UploadedFile = { 
-      ...file, 
+    const uploadedFile: UploadedFile = {
+      ...file,
       id,
-      uploadedAt: null
+      uploadedAt: null,
+      status: file.status || "pending",
+      sessionId: file.sessionId || null,
+      errorMessage: file.errorMessage || null
     };
     this.uploadedFiles.set(id, uploadedFile);
     return uploadedFile;
